@@ -1,0 +1,11 @@
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+th {
+    padding: 10px;
+}

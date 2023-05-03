@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Bot1 - Clients</title>
+        <link rel="stylesheet" href="/static/styles.css" />
+    </head>
+    <body>
+        <table id="dev-table">
+            <tr>
+                <th>User</th>
+                <th>Hostname</th>
+                <th>Ip Address</th>
+                <th>First Seen</th>
+                <th>Device ID</th>
+                <th>Session ID</th>
+                <th>Connected</th>
+            </tr>
+            {% for client in clients%}
+            <tr
+                onclick="window.location.href = '/device/?id={{ client.id }}';"
+                style="cursor: pointer"
+                id="{{ client.id }}"
+            >
+                <th>{{ client.username }}</th>
+                <th>{{ client.hostname }}</th>
+                <th>{{ client.ip_addr }}</th>
+                <th>{{ client.first_seen }}</th>
+                <th>{{ client.id }}</th>
+                <th>{{ client.sid }}</th>
+                <th>{{ client.connected }}</th>
+            </tr>
+            {% endfor %}
+        </table>
+        <script
+            src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+            integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            const socket = io("/portal");
+
+            socket.on("refresh", () => window.location.reload());
+        </script>
+    </body>
+</html>

